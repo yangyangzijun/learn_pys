@@ -1,2 +1,3 @@
-creat table stu{hcvjivji,rvr,vr,vrr,fiufiui}
-insert into stu{'yuyyi','yuyuyiu','6rdrd'}
+creat table 学生信息一览表{学号,姓名,性别,年龄,专业,奖励}
+insert into 学生信息一览表{'20100021','史玉明','女','20','计算机','2011校奖学金，2012国家'}
+insert into 学生信息一览表{'20100100','李明虎','男','21','机械','2012校优秀学生'}
