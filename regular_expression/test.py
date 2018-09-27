@@ -1,2 +1,5 @@
-file = open("F:\py/test/ dggf.csv",'w').read()
-print(file)
+list=['4545','trhyj']
+li='4545'
+for l in list:
+    if li==l:
+        print('yes')

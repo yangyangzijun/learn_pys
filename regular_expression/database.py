@@ -11,13 +11,17 @@ def creat_table(s):
     file=open("F:\py/test/"+str_1[0][:-1]+".csv",'w',newline='')
 
 
-    file.writelines(list)
+    list_1=list
+    i=0
     for li in list:
         print(li[0:-1])
-        file.writelines(li[0:-1]+',')
-
+        list_1[i]=li[0:-1]
+        i=i+1
+    writer=csv.writer(file)
+    writer.writerow(list_1)
 
     file.close()
+    return list_1
 def insert_into(s):
     patt1 = '.+?{'
     patt2 = "'.+?',|.+?'}"
@@ -31,13 +35,21 @@ def insert_into(s):
     writer=csv.writer(file)
 
     i=0
-    list_1=list
+    list_2=list
     for li in list:
-        list_1[i]=li[1:-2]
+        list_2[i]=li[1:-2]
         i=i+1
-        print(li[1:-2])
 
-    writer.writerow(list_1)
+    if str(list_2[2])=="男" or str(list_2[2])=="女":
+
+
+        if int(list_2[3])>15 and int(list_2[3])<45:
+            writer.writerow(list_2)
+        else:
+            print("the age is not right")
+    else:
+        print("the sex is not right")
+
     file.close()
 
 str1=str(input())
