@@ -1,5 +1,119 @@
 import  re
 import csv
+def update(s):
+    patt1='.+? set'
+    patt2='set .+?while'
+    patt3=' .+?=|,.+?='
+    patt4="'.+?'"
+    patt5="while .+?[<=>]'.+'"
+    patt6=" .+?[<=>]|,.+?[<=>]"
+    patt7="'.+?'"
+    patt8="[=><]'"
+    list_1=re.compile(patt1).findall(s)
+    list_2=re.compile(patt2).findall(s)
+    list_3=re.compile(patt3).findall(str(list_2))
+    list_4=re.compile(patt4).findall(str(list_2))
+    list_5=re.compile(patt5).findall(s)
+    list_6=re.compile(patt6).findall(str(list_5))
+    list_7=re.compile(patt7).findall(str(list_5))
+    list_7_1=[]#条件列的值
+    for l in list_7:
+        list_7_1.append(l[1:-1])
+    print(list_6)
+    list_6_1=[]#条件的列
+    list_8=re.compile(patt8).findall(str(list_5))
+    list_while=[]
+    for l in list_8:
+        list_while.append(l[:-1])
+    print(list_while)
+    for l in list_6:
+        list_6_1.append(l[1:-1])
+
+    print(list_6_1)
+    print(list_7_1)
+    list_3_1=[]#更新的列
+    list_4_1=[]#更新的值
+    for l in list_3:
+        list_3_1.append(l[1:-1])
+    for l in list_4:
+        list_4_1.append(l[1:-1])
+    print(list_3_1)
+    print(list_4_1)
+    file_name=list_1[0][0:-4]#文件名
+    list_read=[]
+
+    data = open("F:\py/test/" + str(file_name) + ".csv", 'r', newline="")
+    datal = csv.reader(data)
+    for l in datal:
+        print(l)
+        list_read.append(l)
+    data.close()
+    location_while=[]
+    location_value=[]
+    t = 0
+    for l in list_6_1:
+        t = 0
+        for i in list_read[0]:
+            if l==i:
+                location_while.append(t)
+
+                break
+            else:
+                t=t+1
+    t = 0
+    for l in list_3_1:
+        t = 0
+        for i in list_read[0]:
+            if l == i:
+                location_value.append(t)
+
+                break
+            else:
+                t = t + 1
+
+
+
+    print(location_while)
+    print(location_value)
+
+    for l in list_read:
+        flag=0
+        ttt = 0
+
+        for i in range(0,len(location_while)):
+
+            if str(list_while[0])=="="and l[location_while[i]]==list_7_1[i]:
+                print()
+            elif str(list_while[0])=="<"and l[location_while[i]]<list_7_1[i]:
+                print()
+            elif str(list_while[0])==">"and l[location_while[i]]>list_7_1[i]:
+
+                print()
+            elif str(list_while[0])==">="and l[location_while[i]]>=list_7_1[i]:
+                print()
+            elif str(list_while[0])=="<="and l[location_while[i]]<=list_7_1[i]:
+                print()
+            else:
+                flag=1
+                break
+        if flag==0:
+            for pp in range(0,len(location_value)):
+                l[location_value[pp]]=list_4_1[pp]
+
+    print(list_while[0])
+    print(list_read)
+    data = open("F:\py/test/" + str(file_name) + ".csv", 'w', newline="")
+    datal = csv.writer(data)
+    for l in list_read:
+        datal.writerow(l)
+    data.close()
+
+
+
+
+
+
+    print(s)
 def delete(s):
     patt1='.+? '
     patt2=" \S+?[=><]'.+?'"
@@ -84,59 +198,68 @@ def select(s):
     list_4=list_3[0][5:100]
     print(list_2)
     print(list_4)
-    list_5=[None]*100
-    list_5_length=0
-    data = open("F:\py/test/"+str(list_4)+".csv", 'r', newline="")
-    datal = csv.reader(data)
-    datal_1=datal
-    t = 0
-    for i in datal:
-        if t == 0:
-            t=t+1;
-            for y in i:
-                list_5[list_5_length]=str(y)
-                list_5_length=list_5_length+1
-        else:
-            break
-    data.close()
-    list_5=list_5[0:list_5_length]
-    print(list_5)
-    location=[0]*len(list_2)
-    location_length=0
-    for ll in list_2:
-        location_1=0
-        for tt in list_5:
-            if ll==tt:
-                location[location_length]=location_1
-                location_length=location_length+1
+    if list_2[0]=="*":
+        data = open("F:\py/test/" + str(list_4) + ".csv", 'r', newline="")
+        datal = csv.reader(data)
+        for l in datal:
+            print(l)
+    else:
+        list_5 = [None] * 100
+        list_5_length = 0
+        data = open("F:\py/test/" + str(list_4) + ".csv", 'r', newline="")
+        datal = csv.reader(data)
+        datal_1 = datal
+        t = 0
+        for i in datal:
+            if t == 0:
+                t = t + 1;
+                for y in i:
+                    list_5[list_5_length] = str(y)
+                    list_5_length = list_5_length + 1
+            else:
                 break
-            location_1=location_1+1
-    print(location)
-    data = open("F:\py/test/" + str(list_4) + ".csv", 'r', newline="")
-    datal=csv.reader(data)
-    for o in datal:
-        for lll in location:
-            mat="{:^10}"
-            print(mat.format(o[lll]),end="")
-        print()
-def creat_table(s):
-    patt1='.+?{'
-    patt2='.*?,|.+?}'
+        data.close()
+        list_5 = list_5[0:list_5_length]
+        print(list_5)
+        location = [0] * len(list_2)
+        location_length = 0
+        for ll in list_2:
+            location_1 = 0
+            for tt in list_5:
+                if ll == tt:
+                    location[location_length] = location_1
+                    location_length = location_length + 1
+                    break
+                location_1 = location_1 + 1
+        print(location)
+        data = open("F:\py/test/" + str(list_4) + ".csv", 'r', newline="")
+        datal = csv.reader(data)
+        for o in datal:
+            for lll in location:
+                mat = "{:^10}"
+                print(mat.format(o[lll]), end="")
+            print()
 
-    str_1=re.search(patt1,s)
-    s=s[len(str_1[0]):100]
-    list=re.compile(patt2).findall(s)
-    file=open("F:\py/test/"+str_1[0][:-1]+".csv",'w',newline='')
-    list_1=list
-    i=0
-    for li in list:
-        print(li[0:-1])
-        list_1[i]=li[0:-1]
-        i=i+1
-    writer=csv.writer(file)
-    writer.writerow(list_1)
-    file.close()
-    return list_1
+def creat_table(s):
+        patt1 = '.+?{'
+        patt2 = '.*?,|.+?}'
+
+        str_1 = re.search(patt1, s)
+        s = s[len(str_1[0]):100]
+        list = re.compile(patt2).findall(s)
+        file = open("F:\py/test/" + str_1[0][:-1] + ".csv", 'w', newline='')
+        list_1 = list
+        i = 0
+        for li in list:
+            print(li[0:-1])
+            list_1[i] = li[0:-1]
+            i = i + 1
+        writer = csv.writer(file)
+        writer.writerow(list_1)
+        file.close()
+        return list_1
+
+
 def insert_into(s):
     patt1 = '.+?{'
     patt2 = "'.+?',|.+?'}"
@@ -181,6 +304,7 @@ for i in  range(0,100):
     part2="insert into.+?"
     part3='select .+?'
     part4='delete from .+?'
+    part5='update .+?'
     if re.match(part1,str1):
         creat_table(str1[12:100])
     if re.match(part2,str1):
@@ -189,6 +313,14 @@ for i in  range(0,100):
         select(str1[7:1000])
     if re.match(part4,str1):
         delete(str1[12:100])
+    if re.match(part5,str1):
+        update(str1[7:])
+
+
+    if str1=='quit':
+        break
+    else:
+        print("syntax error")
 
 
 
